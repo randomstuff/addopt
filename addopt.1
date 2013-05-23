@@ -1,0 +1,56 @@
+.TH addopt 1 "MAY 2013" "" "addopt"
+
+.SH NAME
+addopt \- configure additional packages
+
+.SH SYNOPSIS
+
+.B . addopt.sh
+
+.B addopt
+.I folder-or-name ...
+
+.SH DESCRIPTION
+
+.PP
+Configure the environment variable in order to use a given package directory.
+
+.IP /absolute/path
+    The given directory is added.
+
+.IP name
+    The directory /opt/name is added.
+
+.SH ENVIRONMENT
+
+.IP PATH
+Executables.
+
+.IP LD_RUN_PATH
+Libraries for the dynamic linker (ld.so).
+
+.IP MANPATH
+Manual pages (man).
+
+.IP INFOPATH
+Info pages (info).
+
+.IP LD_LIBRARY_PATH
+Libraries for the linker (ld).
+
+.IP PKG_CONFIG_PATH
+Package info (pkg-config).
+
+.IP CPATH
+Include files ([Objective-]C[++]).
+
+.SH "SEE ALSO"
+.BR ld (1),
+.BR ld.so (1),
+.BR man (1),
+.BR info (1),
+.BR pkg-config (1),
+.BR gcc (1),
+.BR cc (1),
+.BR c99 (1),
+.BR clang (1)
