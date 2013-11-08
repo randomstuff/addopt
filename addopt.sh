@@ -107,7 +107,7 @@ addopt() {
 	    --help)
 		;;
 	    /* | ./* | ../* )
-		_addopt_handle "$1"
+                _addopt_handle "$(readlink -m "$1")"
 		;;
 	    *)
 		_addopt_handle "/opt/$1"
