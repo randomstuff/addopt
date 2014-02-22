@@ -72,31 +72,37 @@ _addopt_handle() {
 
     # Runtime
 
-    _addopt_check LD_RUN_PATH "$1/lib"
+    # ld.so
+    _addopt_check LD_LIBRARY_PATH "$1/lib"
 
+    # PATH (execp)
     for p in "$1/games" "$1/bin" "$1/sbin"; do
 	_addopt_check PATH "$p"
     done
 
     # Doc
 
+    # man
     if which manpath > /dev/null ; then
 	_addopt_check MANPATH "$1/share/man" `manpath`
     fi
 
+    # info
     for p in "$1/share/info" "$1/info"; do
 	_addopt_check INFOPATH "$p"
     done
 
     # Compilation
 
-    _addopt_check LD_LIBRARY_PATH "$1/lib"
+    # ld
+    _addopt_check LD_RUN_PATH "$1/lib"
 
     # pkg-config
     for p in "$1/share/pkconfig" "$1/lib/pkgconfig"; do
     	_addopt_check PKG_CONFIG_PATH "$p"
     done
 
+    # cpp
     _addopt_check CPATH "$1/include"
 
 }
