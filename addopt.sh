@@ -98,7 +98,7 @@ _addopt_handle() {
     _addopt_check LD_RUN_PATH "$1/lib"
 
     # pkg-config
-    for p in "$1/share/pkconfig" "$1/lib/pkgconfig"; do
+    for p in "$1/share/pkgconfig" "$1/lib/pkgconfig"; do
     	_addopt_check PKG_CONFIG_PATH "$p"
     done
 
