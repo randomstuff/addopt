@@ -75,6 +75,9 @@ _addopt_handle() {
     # ld.so
     _addopt_check LD_LIBRARY_PATH "$1/lib"
 
+    # GCC
+    _addopt_check LIBRARY_PATH "$1/lib"
+
     # PATH (execp)
     for p in "$1/games" "$1/bin" "$1/sbin"; do
 	_addopt_check PATH "$p"
