@@ -107,6 +107,8 @@ _addopt_handle() {
 
     # cpp
     _addopt_check CPATH "$1/include"
+    # This one is used by cmake:
+    _addopt_check INCLUDE "$1/include"
 
 }
 
