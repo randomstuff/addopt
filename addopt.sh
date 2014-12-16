@@ -21,38 +21,38 @@
 
 
 # Prepend path to given variable:
-#   VARIABLE  : name of the variable
-#   path      : path to prepend
-#   default   : default (when the variable is not defined)
-#   separator : path separator
+#  VARIABLE  : name of the variable
+#  path      : path to prepend
+#  default   : default (when the variable is not defined)
+#  separator : path separator
 _addopt_prepend() {
-    if [ $# -le 1 ]; then
-	echo "Error in prepend" >&2
-	exit 1
-    fi
-
-    local VARIABLE="$1";
-    local path="$2";
-    local default="$3";
-    local separator="$4";
-
-    # Default separator:
-    if [ $# -le 3 ]; then
-        separator=":";
-    fi
-
-    # Default value:
-    echo "$VARIABLE+=$path" >&2
-    if [ -z $(eval echo \$$VARIABLE) ]; then
-	if [ -z "$default" ]; then
-	    eval "export $VARIABLE=\$path"
-	    return
+	if [ $# -le 1 ]; then
+		echo "Error in prepend" >&2
+		exit 1
 	fi
-	eval "export \$VARIABLE=$default";
-    fi
 
-    # Prepend path:
-    eval "export $VARIABLE=$path$separator\$$VARIABLE";
+	local VARIABLE="$1";
+	local path="$2";
+	local default="$3";
+	local separator="$4";
+
+	# Default separator:
+	if [ $# -le 3 ]; then
+		separator=":";
+	fi
+
+	# Default value:
+	echo "$VARIABLE+=$path" >&2
+	if [ -z $(eval echo \$$VARIABLE) ]; then
+		if [ -z "$default" ]; then
+			eval "export $VARIABLE=\$path"
+			return
+		fi
+		eval "export \$VARIABLE=$default";
+	fi
+
+	# Prepend path:
+	eval "export $VARIABLE=$path$separator\$$VARIABLE";
 }
 
 # Prepend some path if it exists
@@ -61,69 +61,66 @@ _addopt_prepend() {
 #   default   : default (when the variable is not defined)
 #   separator : path separator
 _addopt_check() {
-    if [ -e "$2" ]; then
-	_addopt_prepend "$@"
-    fi
+	if [ -e "$2" ]; then
+		_addopt_prepend "$@"
+	fi
 }
 
 # Update environment variables for a given path
-#   path : path
+#  path : path
 _addopt_handle() {
 
-    # Runtime
+	# Runtime
 
-    # ld.so
-    _addopt_check LD_LIBRARY_PATH "$1/lib"
+	# ld.so
+	_addopt_check LD_LIBRARY_PATH "$1/lib"
 
-    # GCC
-    _addopt_check LIBRARY_PATH "$1/lib"
+	# GCC
+	_addopt_check LIBRARY_PATH "$1/lib"
 
-    # PATH (execp)
-    for p in "$1/games" "$1/bin" "$1/sbin"; do
-	_addopt_check PATH "$p"
-    done
+	# PATH (execp)
+	for p in "$1/games" "$1/bin" "$1/sbin"; do
+		_addopt_check PATH "$p"
+	done
 
-    # Doc
+	# Doc
 
-    # man
-    if which manpath > /dev/null ; then
-	_addopt_check MANPATH "$1/share/man" `manpath`
-    fi
+	# man
+	if which manpath > /dev/null ; then
+		_addopt_check MANPATH "$1/share/man" `manpath`
+	fi
 
-    # info
-    for p in "$1/share/info" "$1/info"; do
-	_addopt_check INFOPATH "$p"
-    done
+	# info
+	for p in "$1/share/info" "$1/info"; do
+		_addopt_check INFOPATH "$p"
+	done
 
-    # Compilation
+	# Compilation
 
-    # ld
-    _addopt_check LD_RUN_PATH "$1/lib"
+	# ld
+	_addopt_check LD_RUN_PATH "$1/lib"
 
-    # pkg-config
-    for p in "$1/share/pkgconfig" "$1/lib/pkgconfig"; do
-    	_addopt_check PKG_CONFIG_PATH "$p"
-    done
+	# pkg-config
+	for p in "$1/share/pkgconfig" "$1/lib/pkgconfig"; do
+		_addopt_check PKG_CONFIG_PATH "$p"
+	done
 
-    # cpp
-    _addopt_check CPATH "$1/include"
-    # This one is used by cmake:
-    _addopt_check INCLUDE "$1/include"
-
+	# cpp
+	_addopt_check CPATH "$1/include"
 }
 
 addopt() {
-    while [ $# -gt 0 ]; do
-	case "$1" in
-	    --help)
-		;;
-	    /* | ./* | ../* )
-                _addopt_handle "$(readlink -m "$1")"
-		;;
-	    *)
-		_addopt_handle "/opt/$1"
-		;;
-	esac
-	shift
-    done
+	while [ $# -gt 0 ]; do
+		case "$1" in
+			--help)
+			;;
+			/* | ./* | ../* )
+				_addopt_handle "$(readlink -m "$1")"
+			;;
+			*)
+				_addopt_handle "/opt/$1"
+			;;
+		esac
+		shift
+	done
 }
