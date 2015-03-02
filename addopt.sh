@@ -114,7 +114,7 @@ addopt() {
 		case "$1" in
 			--help)
 			;;
-			/* | ./* | ../* )
+			/* | ./* | ../* | . | ..)
 				_addopt_handle "$(readlink -m "$1")"
 			;;
 			*)
