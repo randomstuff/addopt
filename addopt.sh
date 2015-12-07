@@ -31,10 +31,14 @@ _addopt_prepend() {
 		exit 1
 	fi
 
-	local VARIABLE="$1";
-	local path="$2";
-	local default="$3";
-	local separator="$4";
+	local VARIABLE;
+	VARIABLE="$1";
+	local addpath;
+	addpath="$2";
+	local default;
+	default="$3";
+	local separator;
+	separator="$4";
 
 	# Default separator:
 	if [ $# -le 3 ]; then
@@ -42,17 +46,17 @@ _addopt_prepend() {
 	fi
 
 	# Default value:
-	echo "$VARIABLE+=$path" >&2
+	echo "$VARIABLE+=$addpath" >&2
 	if [ -z $(eval echo \$$VARIABLE) ]; then
 		if [ -z "$default" ]; then
-			eval "export $VARIABLE=\$path"
+			eval "export $VARIABLE=\$addpath"
 			return
 		fi
 		eval "export \$VARIABLE=$default";
 	fi
 
 	# Prepend path:
-	eval "export $VARIABLE=$path$separator\$$VARIABLE";
+	eval "export $VARIABLE=$addpath$separator\$$VARIABLE";
 }
 
 # Prepend some path if it exists
@@ -69,6 +73,8 @@ _addopt_check() {
 # Update environment variables for a given path
 #  path : path
 _addopt_handle() {
+
+	local p
 
 	# Runtime
 
