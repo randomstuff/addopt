@@ -1,16 +1,60 @@
-Configure environment for extra extra software packages (/opt/foobar)
-=====================================================================
+% ADDOPT(1) | Enable extra software packages
+% Gabriel Corona
+% February 2018
 
-Configure PATH, LD_RUN_PATH, MANPATH, CPATH ...
+# Name
 
-  $ node
-  bash: node: command not found
+`addopt` - enable extra software packages
 
-  $ ls /opt/node0.9
-  bin lin share
+# Options
 
-  $ . addopt.sh
-  $ addopt /opt/node0.9
-  $ node
+`addopt` `/opt/foo` `bar`
 
-  $ man node
+
+`/opt/foo`
+
+: path to a software package
+
+`bar`
+
+: package name (looked up in `/opt`)
+
+# Description
+
+Enable extra software packages (installed for exemple in `/opt/foobar/`)
+in the current environment.
+
+This makes available in the current environment:
+
+binaries
+
+: via `PATH`
+
+
+man pages
+
+: via `MANPATH`
+
+info pages
+
+: via `INFOPATH`
+
+libraries
+
+: via `LD_RUN_PATH`, `LIBRARY_PATH`
+
+`pkg-config` definitions
+
+: via `PKG_CONFIG_PATH`
+
+C, C++, Objective-C include files
+
+: via `CPATH`
+
+# Examples
+
+~~~sh
+. addopt.sh
+addopt llvm-8.0
+addopt /opt/nodejs-11.10.0
+~~~
